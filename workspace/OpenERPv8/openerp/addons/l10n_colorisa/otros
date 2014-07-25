@@ -1,0 +1,117 @@
+<record id="view_company_form_colorisa" model="ir.ui.view">
+            <field name="name">res.company.form</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="model">res.company</field>
+            <field name="arch" type="xml">
+                <form string="Company" version="7.0">
+                  <sheet>
+                    <div>
+                        <field name="logo" widget="image"  class="oe_avatar oe_left"/>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" class="oe_inline"/>
+                        </h1>
+                    </div>
+                    <div attrs="{'invisible' : [('logo','!=',False)]}" class="oe_view_nocontent oe_clear">
+                        <p class="oe_view_nocontent_create oe_edit_only">
+                            Click to set your company logo.
+                        </p>
+                    </div>
+                    <group col="4">
+                        <field name="parent_id"  groups="base.group_multi_company"/>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="General Information">
+                            <group>
+                                <group>
+                                    <field name="partner_id" readonly="1" required="0" groups="base.group_no_one"/>
+                                    <label for="street" string="Address"/>
+                                    <div>
+                                        <field name="street" placeholder="Street..."/>
+                                        <field name="street2"/>
+                                        <div>
+                                           <field name="city" position="replace">
+                    							<field name="city" invisible="1"/>
+                							</field>
+                							<field name="zip" position="replace">
+                    							<field invisible="1" name="zip" style="width: 1%%"/>
+                							</field>
+                							<field name="vat" position="replace">
+                    							<field invisible="1" name="vat" style="width: 1%%"/>
+                							</field>
+                								<field name="ciudad" class="oe_no_button"  options="{&quot;no_open&quot;: True}" on_change="onchange_ciudad(ciudad)" placeholder="Ciudad" style="width: 40%%"/>
+                							    <field name="state_id" class="oe_no_button" domain="[('country_id','=',country_id)]"  on_change="onchange_state(state_id)" options="{&quot;no_open&quot;: True}" placeholder="Departamento" style="width:34%%"/>
+												<field name="country_id" class="oe_no_button"  options="{&quot;no_open&quot;: True}" placeholder="Pais"/>
+                    							<field name="abr_street" style="width: 40%%"/>
+                                         </div>
+                                        
+                                    </div>
+                                    <label for="rml_header1"/>
+                                    <div>
+                                        <field name="rml_header1" placeholder="e.g. Global Business Solutions"/>
+                                    </div>
+                                    <field name="website" widget="url" placeholder="e.g. www.openerp.com"
+                                        on_change="onchange_footer(custom_footer, phone, fax, email, website, vat, company_registry, bank_ids)"/>
+                                </group>
+                                <group>
+                                    
+                                    <field name="tdoc"/>
+                                    <field name="tdoc" position="after">
+                    						<field name="ref" placeholder="Nº de identificación" nolabel="1" required="1" type="number"/>
+                					</field>
+                					<field name="ref" position="after" >
+                    						<field name="dv" placeholder="dv" nolabel="1" style="width: 10%%" string="Número Identificación"/>
+                					</field>
+                					<field name="phone" on_change="onchange_footer(custom_footer, phone, fax, email, website, vat, company_registry, bank_ids)"/>
+                                    <field name="fax" on_change="onchange_footer(custom_footer, phone, fax, email, website, vat, company_registry, bank_ids)"/>
+                                    <field name="email" on_change="onchange_footer(custom_footer, phone, fax, email, website, vat, company_registry, bank_ids)"/>
+                                    <field name="company_registry" on_change="onchange_footer(custom_footer, phone, fax, email, website, vat, company_registry, bank_ids)"/>
+                                </group>
+                            </group>
+                            <group string="Bank Accounts">
+                                <field name="bank_ids" nolabel="1" context="{'default_company_id': active_id, 'footer_hide': False}"
+                                    on_change="onchange_footer(custom_footer, phone, fax, email, website, vat, company_registry, bank_ids)"/>
+                            </group>
+                        </page>
+                        <page string="Configuration">
+                            <group>
+                                <group name="account_grp" string="Accounting">
+                                    <field name="currency_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Reports Configuration">
+                            <group string="Footer Configuration">
+                                <field name="custom_footer" on_change="onchange_footer(custom_footer, phone, fax, email, website, vat, company_registry, bank_ids)"/>
+                                <field name="rml_footer" attrs="{'invisible': [('custom_footer','=',False)]}"/>
+                                <field name="rml_footer_readonly" attrs="{'invisible': [('custom_footer','=',True)]}"/>
+                            </group>
+                            <group string="RML Configuration">
+                                <field name="rml_paper_format" on_change="onchange_rml_paper_format(rml_paper_format)"/>
+                            </group>
+                            <group>
+                                <label for="font" />
+                                <div>
+                                    <div>
+                                        <field name="font" class="oe_inline" colspan="2" on_change="onchange_font_name(font, rml_header, rml_header2, rml_header3)" />
+                                        <button string="(reload fonts)" name="act_discover_fonts" type="object" class="oe_link" colspan="1"/>
+                                    </div>
+                                </div>
+                            </group>
+                            <div class="oe_right oe_button_box" name="button_box" groups="base.group_no_one" >
+                                <button name="%(preview_report)d" string="Preview Header/Footer" type="action"/>
+                            </div>
+                            <label for="rml_header" groups="base.group_no_one" />
+                            <field name="rml_header" groups="base.group_no_one" />
+                            <label for="rml_header2" groups="base.group_no_one" />
+                            <field name="rml_header2" groups="base.group_no_one" />
+                            <label for="rml_header3" groups="base.group_no_one" />
+                            <field name="rml_header3" groups="base.group_no_one" />
+                        </page>
+                    </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>   

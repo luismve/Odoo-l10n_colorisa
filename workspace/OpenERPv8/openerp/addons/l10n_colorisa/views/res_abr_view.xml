@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+  
+  <record id="view_res_abr_tree" model="ir.ui.view">
+        <field name="name">res.street.abr.tree</field>
+        <field name="model">res.street.abr</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Abreviatura">
+                <field name="code"/>
+                <field name="name"/>
+            </tree>
+        </field>
+  </record>
+
+  <record id="view_res_abr_form" model="ir.ui.view">
+        <field name="name">res.street.abr.form</field>
+        <field name="model">res.street.abr</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Abreviatura">
+                    <field name="code"/>
+                    <field name="name"/>
+            </form>
+        </field>
+  </record>
+     
+  <record id="action_abr" model="ir.actions.act_window">
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.street.abr</field>
+  </record>
+   
+  <menuitem name="Abreviatura" action="action_abr" id="menu_abr_street" parent="base.menu_localisation"/>
+     
+  </data>
+</openerp>    
